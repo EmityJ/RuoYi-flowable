@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysExternalContactMapper">
+    
+    <resultMap type="SysExternalContact" id="SysExternalContactResult">
+        <result property="contactId"    column="contact_id"    />
+        <result property="name"    column="name"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="bankCard"    column="bank_card"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="phone"    column="phone"    />
+        <result property="workUnit"    column="work_unit"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysExternalContactVo">
+        select contact_id, name, id_card, bank_card, bank_name, phone, work_unit, create_by, create_time, update_by, update_time, remark 
+        from sys_external_contact
+    </sql>
+
+    <select id="selectSysExternalContactList" parameterType="SysExternalContact" resultMap="SysExternalContactResult">
+        <include refid="selectSysExternalContactVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="bankCard != null  and bankCard != ''"> and bank_card = #{bankCard}</if>
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="workUnit != null  and workUnit != ''"> and work_unit like concat('%', #{workUnit}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysExternalContactByContactId" parameterType="Long" resultMap="SysExternalContactResult">
+        <include refid="selectSysExternalContactVo"/>
+        where contact_id = #{contactId}
+    </select>
+        
+    <insert id="insertSysExternalContact" parameterType="SysExternalContact" useGeneratedKeys="true" keyProperty="contactId">
+        insert into sys_external_contact
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="bankCard != null">bank_card,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="workUnit != null">work_unit,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="bankCard != null">#{bankCard},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="workUnit != null">#{workUnit},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysExternalContact" parameterType="SysExternalContact">
+        update sys_external_contact
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="bankCard != null">bank_card = #{bankCard},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="workUnit != null">work_unit = #{workUnit},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where contact_id = #{contactId}
+    </update>
+
+    <delete id="deleteSysExternalContactByContactId" parameterType="Long">
+        delete from sys_external_contact where contact_id = #{contactId}
+    </delete>
+
+    <delete id="deleteSysExternalContactByContactIds" parameterType="String">
+        delete from sys_external_contact where contact_id in 
+        <foreach item="contactId" collection="array" open="(" separator="," close=")">
+            #{contactId}
+        </foreach>
+    </delete>
+</mapper> 
